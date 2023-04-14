@@ -18,7 +18,7 @@ public class LogoutService implements LogoutHandler {
     private TokenRepository tokenRepository ;
     @Autowired
     private JwtService jwtService ;
-    @AutowiredS
+    @Autowired
     private AccountRepository accountRepository ;
 
     @Override
