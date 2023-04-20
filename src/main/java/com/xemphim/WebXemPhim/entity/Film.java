@@ -43,7 +43,17 @@ public class Film {
 	
 	@Column(name = "odd_film")
 	private Integer oddFilm;
-	
+	@Column(name = "average_rating")
+	private Float rating;
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "film_producer_id")
 	private FilmProducer filmProducer;

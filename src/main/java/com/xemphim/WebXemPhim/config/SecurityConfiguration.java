@@ -24,6 +24,14 @@ public class SecurityConfiguration {
     private AuthenticationProvider authenticationProvider;
     @Autowired
     private LogoutHandler logoutHandler;
+    private static final String[] AUTH_WHITELIST = {
+            "/signIn",
+            "/signUp",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,24 +39,20 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/signIn","/signUp")
-                    .permitAll()
-                .requestMatchers("/admin/**")
-                    .hasAnyAuthority("ROLE_ADMIN")
-                .requestMatchers("/user/**")
-                    .hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                .requestMatchers("/client/**")
-                    .hasAnyAuthority("ROLE_CLIENT","ROLE_ADMIN","ROLE_USER")
+                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers("/watch/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_ADMIN", "ROLE_USER")
+                .requestMatchers(AUTH_WHITELIST).permitAll()
                 .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
-                    .logoutUrl("/signOut")
-                    .addLogoutHandler(logoutHandler)
-                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                .logoutUrl("/signOut")
+                .addLogoutHandler(logoutHandler)
+                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
         ;
 
         return http.build();

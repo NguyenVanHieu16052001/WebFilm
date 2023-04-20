@@ -1,6 +1,8 @@
 package com.xemphim.WebXemPhim.controller;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
+import com.xemphim.WebXemPhim.repository.UserRepository;
+import com.xemphim.WebXemPhim.service.AdminService;
 import com.xemphim.WebXemPhim.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +17,10 @@ import java.security.PrivateKey;
 @RequestMapping("admin")
 public class AdminController {
     @Autowired
-    private UserService userService;
+    private AdminService adminService;
     @GetMapping("users")
     public ResponseEntity<APIResponse> getAccounts() {
-        APIResponse apiResponse = userService.GetAllUser();
+        APIResponse apiResponse = adminService.getUsers();
         return ResponseEntity
                 .status(apiResponse.getStatus())
                 .body(apiResponse);

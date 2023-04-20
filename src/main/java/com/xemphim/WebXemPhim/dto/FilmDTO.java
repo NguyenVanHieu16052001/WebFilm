@@ -1,12 +1,22 @@
 package com.xemphim.WebXemPhim.dto;
 
+import com.xemphim.WebXemPhim.entity.Episode;
+
+import java.util.Date;
+import java.util.ArrayList;
+
 public class FilmDTO {
     private String filmName;
+    private String filmPosterPath;
+    private ArrayList<String> filmCategory;
+    private float filmRating;
+//Detail
+    private String filmDescription;
     private String trailerPath;
-    private String filmPath;
-    private String filmProducer;
-    private String nation;
-    private String director;
+    private Integer odd;
+    private Date release_time;
+    private ArrayList<String> episodes;
+
 
     public String getFilmName() {
         return filmName;
@@ -14,6 +24,38 @@ public class FilmDTO {
 
     public void setFilmName(String filmName) {
         this.filmName = filmName;
+    }
+
+    public String getFilmPosterPath() {
+        return filmPosterPath;
+    }
+
+    public void setFilmPosterPath(String filmPosterPath) {
+        this.filmPosterPath = filmPosterPath;
+    }
+
+    public ArrayList<String> getFilmCategory() {
+        return filmCategory;
+    }
+
+    public void setFilmCategory(ArrayList<String> filmCategory) {
+        this.filmCategory = filmCategory;
+    }
+
+    public float getFilmRating() {
+        return filmRating;
+    }
+
+    public void setFilmRating(float filmRating) {
+        this.filmRating = filmRating;
+    }
+
+    public String getFilmDescription() {
+        return filmDescription;
+    }
+
+    public void setFilmDescription(String filmDescription) {
+        this.filmDescription = filmDescription;
     }
 
     public String getTrailerPath() {
@@ -24,35 +66,27 @@ public class FilmDTO {
         this.trailerPath = trailerPath;
     }
 
-    public String getFilmPath() {
-        return filmPath;
+    public Integer getOdd() {
+        return odd;
     }
 
-    public void setFilmPath(String filmPath) {
-        this.filmPath = filmPath;
+    public void setOdd(Integer odd) {
+        this.odd = odd;
     }
 
-    public String getFilmProducer() {
-        return filmProducer;
+    public Date getRelease_time() {
+        return release_time;
     }
 
-    public void setFilmProducer(String filmProducer) {
-        this.filmProducer = filmProducer;
+    public void setRelease_time(Date release_time) {
+        this.release_time = release_time;
     }
 
-    public String getNation() {
-        return nation;
+    public ArrayList<String> getEpisodes() {
+        return episodes;
     }
 
-    public void setNation(String nation) {
-        this.nation = nation;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
+    public void setEpisodes(ArrayList<String> episodes) {
+        this.episodes = episodes;
     }
 }

@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "evaluations")
+@Table(name = "episodes")
 public class Episode {
 	
 	@Id
@@ -19,7 +19,7 @@ public class Episode {
 	private Integer episodeId;
 	
 	@Column(name = "episode_path")
-	private Integer episodePath;
+	private String episodePath;
 	
 	@Column(name = "numerical_order")
 	private Integer numericalOrder;
@@ -36,11 +36,11 @@ public class Episode {
 		this.episodeId = episodeId;
 	}
 
-	public Integer getEpisodePath() {
+	public String  getEpisodePath() {
 		return episodePath;
 	}
 
-	public void setEpisodePath(Integer episodePath) {
+	public void setEpisodePath(String episodePath) {
 		this.episodePath = episodePath;
 	}
 
