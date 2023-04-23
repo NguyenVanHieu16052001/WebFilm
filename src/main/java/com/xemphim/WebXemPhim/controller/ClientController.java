@@ -1,10 +1,10 @@
 package com.xemphim.WebXemPhim.controller;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.ChangeInfoRequestDTO;
-import com.xemphim.WebXemPhim.dto.ChangePasswordRequestDTO;
-import com.xemphim.WebXemPhim.dto.CommentRequestDTO;
-import com.xemphim.WebXemPhim.dto.EvaluationRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.ChangeInfoRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.ChangePasswordRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.EvaluationRequestDTO;
 import com.xemphim.WebXemPhim.repository.AccountRepository;
 import com.xemphim.WebXemPhim.repository.FilmPackageRepository;
 import com.xemphim.WebXemPhim.service.AuthenticationService;

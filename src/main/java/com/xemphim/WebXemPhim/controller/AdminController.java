@@ -1,16 +1,18 @@
 package com.xemphim.WebXemPhim.controller;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.repository.UserRepository;
+import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
 import com.xemphim.WebXemPhim.service.AdminService;
-import com.xemphim.WebXemPhim.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.PrivateKey;
+import java.io.IOException;
 
 
 @RestController
@@ -18,6 +20,13 @@ import java.security.PrivateKey;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+
+    @PostMapping("film/new")
+    public void fileUpload(
+            @ModelAttribute CreFilmRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response
+            ) throws IOException {
+        adminService.creFilm(requestDTO, request, response);
+    }
     @GetMapping("users")
     public ResponseEntity<APIResponse> getAccounts() {
         APIResponse apiResponse = adminService.getUsers();

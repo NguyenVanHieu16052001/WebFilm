@@ -1,12 +1,9 @@
 package com.xemphim.WebXemPhim.controller;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.SignInRequestDTO;
-import com.xemphim.WebXemPhim.dto.SignUpRequestDTO;
-import com.xemphim.WebXemPhim.repository.AccountRepository;
+import com.xemphim.WebXemPhim.dto.request.SignInRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.SignUpRequestDTO;
 import com.xemphim.WebXemPhim.service.AuthenticationService;
-import com.xemphim.WebXemPhim.service.JwtService;
-import com.xemphim.WebXemPhim.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

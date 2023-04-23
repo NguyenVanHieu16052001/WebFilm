@@ -1,10 +1,10 @@
 package com.xemphim.WebXemPhim.service;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.ChangeInfoRequestDTO;
-import com.xemphim.WebXemPhim.dto.ChangePasswordRequestDTO;
-import com.xemphim.WebXemPhim.dto.SignInRequestDTO;
-import com.xemphim.WebXemPhim.dto.SignUpRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.ChangeInfoRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.ChangePasswordRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.SignInRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.SignUpRequestDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

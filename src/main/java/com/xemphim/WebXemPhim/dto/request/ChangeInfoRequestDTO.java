@@ -1,4 +1,4 @@
-package com.xemphim.WebXemPhim.dto;
+package com.xemphim.WebXemPhim.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.OptBoolean;

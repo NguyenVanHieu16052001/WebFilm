@@ -1,8 +1,8 @@
 package com.xemphim.WebXemPhim.service;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.CommentRequestDTO;
-import com.xemphim.WebXemPhim.dto.EvaluationRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.EvaluationRequestDTO;
 import com.xemphim.WebXemPhim.entity.Account;
 import com.xemphim.WebXemPhim.entity.FilmPackage;
 import jakarta.servlet.http.HttpServletRequest;

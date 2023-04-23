@@ -3,8 +3,6 @@ package com.xemphim.WebXemPhim.entity;
 import java.util.Collection;
 import java.util.List;
 
-import com.xemphim.WebXemPhim.dto.SignUpRequestDTO;
-import com.xemphim.WebXemPhim.repository.RoleRepository;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

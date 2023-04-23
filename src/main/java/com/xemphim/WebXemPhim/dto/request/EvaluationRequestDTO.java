@@ -1,4 +1,4 @@
-package com.xemphim.WebXemPhim.dto;
+package com.xemphim.WebXemPhim.dto.request;
 
 public class EvaluationRequestDTO {
     private int rating;
