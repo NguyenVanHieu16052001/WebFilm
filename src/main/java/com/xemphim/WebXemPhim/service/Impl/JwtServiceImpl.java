@@ -87,6 +87,17 @@ public class JwtServiceImpl implements JwtService{
         return extractClaim(token, Claims::getSubject);
     }
 
+    @Override
+    public String validateToken(String token) {
+        if(token == null){
+            return "Invalid verification token";
+        }
+        if((isTokenExpired(token)))
+            return "Token already expired";
+        else
+            return "valid";
+    }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extracAllClaims(token);
         return claimsResolver.apply(claims);

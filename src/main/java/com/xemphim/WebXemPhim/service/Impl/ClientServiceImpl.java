@@ -68,7 +68,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public APIResponse GetFilmByCategory(String category) {
         APIResponse apiResponse = new APIResponse();
-        List<Film> films = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category));
+        List<FilmCategory> listFilmCategories = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category));
+        List<Film> films = new ArrayList<>();
+        for (FilmCategory f:listFilmCategories) {
+            films.add(f.getId().getFilm());
+        }
         List<FilmDTO> filmDTOs = new ArrayList<>();
         for (Film f:films) {
             List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(f);
@@ -136,7 +140,7 @@ public class ClientServiceImpl implements ClientService {
 
     }
     @Override
-    public void evaluate(@RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void evaluate(String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
         final String accountName;
@@ -146,11 +150,17 @@ public class ClientServiceImpl implements ClientService {
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
+            Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
+            if(film == null){
+                APIResponse apiResponse = new APIResponse();
+                apiResponse.setData("Film not found");
+                new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+            }
             var account = this.accountRepository.findOneByAccountName(accountName)
                     .orElseThrow();
             Evaluation evaluation = new Evaluation();
             EvaluationId id = new EvaluationId();
-            id.setFilm(filmRepository.findOneByFilmNameIgnoreCase(requestDTO.getFilmName()));
+            id.setFilm(film);
             id.setAccount(account);
             evaluation.setId(id);
             evaluation.setStarNumber(requestDTO.getRating());
@@ -162,13 +172,13 @@ public class ClientServiceImpl implements ClientService {
         }
         else {
             APIResponse apiResponse = new APIResponse();
-            apiResponse.setData("Fail");
+            apiResponse.setData("403 Forbidden Access is denied");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         }
     }
 
     @Override
-    public void comment(CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void comment(String filmName, CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
         final String accountName;
@@ -178,12 +188,18 @@ public class ClientServiceImpl implements ClientService {
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
+            Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
+            if(film == null){
+                APIResponse apiResponse = new APIResponse();
+                apiResponse.setData("Film not found");
+                new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+            }
             var account = this.accountRepository.findOneByAccountName(accountName)
                     .orElseThrow();
             Comment comment = new Comment();
             CommentId id = new CommentId();
             id.setAccount(account);
-            id.setFilm(filmRepository.findOneByFilmNameIgnoreCase(requestDTO.getFilmName()));
+            id.setFilm(film);
             id.setCommentLevel(requestDTO.getLever());
             comment.setId(id);
             comment.setCommentDate(new Date());
@@ -195,9 +211,32 @@ public class ClientServiceImpl implements ClientService {
         }
         else {
             APIResponse apiResponse = new APIResponse();
-            apiResponse.setData("Fail");
+            apiResponse.setData("403 Forbidden Access is denied");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         }
+    }
+
+    @Override
+    public APIResponse getHome() {
+        APIResponse apiResponse = new APIResponse();
+        HashMap<String, Object> map = new HashMap<>();
+        List<Film> allFilm = filmRepository.findByOrderByReleaseTime();
+        List<FilmDTO> allFilmDTO = new ArrayList<>();
+        for (Film f : allFilm) {
+            List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(f);
+            List<Category> categories = new ArrayList<>();
+            for (FilmCategory fc : filmCategories) {
+                categories.add(fc.getId().getCategory());
+            }
+            allFilmDTO.add(FilmMapper.getInstance().toFilmDTO(f, categories));
+        }
+        if (allFilmDTO.size() > 10)
+            map.put("newFilms", allFilmDTO.subList(0, 10));
+        else
+            map.put("newFilms", allFilmDTO.subList(0, allFilmDTO.size()));
+        map.put("films", allFilmDTO);
+        apiResponse.setData(map);
+        return apiResponse;
     }
 
     @Override

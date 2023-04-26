@@ -3,15 +3,6 @@ package com.xemphim.WebXemPhim.dto.request;
 public class EvaluationRequestDTO {
     private int rating;
     private String comment;
-    private String filmName;
-
-    public String getFilmName() {
-        return filmName;
-    }
-
-    public void setFilmName(String filmName) {
-        this.filmName = filmName;
-    }
 
     public int getRating() {
         return rating;

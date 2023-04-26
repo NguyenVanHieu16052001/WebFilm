@@ -3,7 +3,6 @@ package com.xemphim.WebXemPhim.dto.request;
 public class SignUpRequestDTO {
     private String accountName;
     private String email;
-    private String phoneNumber;
     private String password;
 
     public String getAccountName() {
@@ -30,11 +29,4 @@ public class SignUpRequestDTO {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

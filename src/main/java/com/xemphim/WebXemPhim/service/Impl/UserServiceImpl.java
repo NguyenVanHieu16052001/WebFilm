@@ -15,6 +15,20 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserRepository userRepository;
 
+    @Autowired
+    private TokenRepository tokenRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
+    @Override
+    public void saveUserVerificationToken(User theUser, String verificationToken) {
+        Token tk = new Token();
+        tk.setToken(verificationToken);
+        Account acc = accountRepository.findOneByUser(theUser).get();
+        tk.setAccount(acc);
+        tokenRepository.save(tk);
+    }
 }

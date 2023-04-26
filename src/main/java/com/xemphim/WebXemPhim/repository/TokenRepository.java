@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface TokenRepository extends JpaRepository<Token,Integer> {
     List<Token> findAllValidTokenByAccount(Account account);
     Optional<Token> findFirstByAccountOrderByIdDesc(Optional<Account> account);
+
+    Token findByToken(String token);
 }

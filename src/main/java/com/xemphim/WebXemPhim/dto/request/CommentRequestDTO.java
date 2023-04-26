@@ -11,16 +11,6 @@ public class CommentRequestDTO {
     @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Ho_Chi_Minh")
     private Date date;
 
-    private String filmName;
-
-    public String getFilmName() {
-        return filmName;
-    }
-
-    public void setFilmName(String filmName) {
-        this.filmName = filmName;
-    }
-
     public int getLever() {
         return lever;
     }

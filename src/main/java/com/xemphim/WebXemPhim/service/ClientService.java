@@ -22,7 +22,9 @@ public interface ClientService {
     void getInfo(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void getPackages(HttpServletRequest request, HttpServletResponse response) throws IOException;
-    void evaluate(@RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response)throws IOException;
+    void evaluate(String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response)throws IOException;
 
-    void comment(CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void comment(String filmName, CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    APIResponse getHome();
 }

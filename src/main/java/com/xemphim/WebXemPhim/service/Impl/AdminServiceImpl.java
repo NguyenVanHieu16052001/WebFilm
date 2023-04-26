@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-    @Value("${project.movie}")
+    @Value("${project.video}")
     private String path;
     @Autowired
     private UserRepository userRepository;

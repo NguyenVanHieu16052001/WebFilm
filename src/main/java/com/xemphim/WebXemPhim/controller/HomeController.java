@@ -21,7 +21,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("home")
-public class ClientController {
+public class HomeController {
     @Autowired
     private ClientService clientService;
     @Autowired
@@ -34,6 +34,14 @@ public class ClientController {
     private AccountRepository accountRepository;
     @Autowired
     private AuthenticationService authenticationService;
+
+    @GetMapping("")
+    public ResponseEntity<APIResponse> home() {
+        APIResponse apiResponse = clientService.getHome();
+        return ResponseEntity
+                .status(apiResponse.getStatus())
+                .body(apiResponse);
+    }
 
     @PostMapping("purchase/{id}")
     public ResponseEntity<APIResponse> purchase(@PathVariable(value = "id") String id, HttpServletRequest request, HttpServletResponse response) {
@@ -82,16 +90,12 @@ public class ClientController {
     public void getPackages(HttpServletRequest request, HttpServletResponse response) throws IOException  {
         clientService.getPackages(request, response);
     }
-    @PostMapping("film/evaluate")
-    public void evaluate(@RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
-        clientService.evaluate(requestDTO,request, response);
+    @PostMapping("film/evaluate/{filmName}")
+    public void evaluate(@PathVariable(value="filmName") String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.evaluate(filmName, requestDTO,request, response);
     }
-    @PostMapping("film/comment")
-    public void comment(@RequestBody CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
-        clientService.comment(requestDTO,request, response);
-    }
-    @PostMapping("refreshToken")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException  {
-        authenticationService.refreshToken(request, response);
+    @PostMapping("film/comment/{filmName}")
+    public void comment(@PathVariable(value="filmName") String filmName, @RequestBody CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.comment(filmName, requestDTO,request, response);
     }
 }

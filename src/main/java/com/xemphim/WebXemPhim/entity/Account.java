@@ -34,6 +34,9 @@ public class Account implements UserDetails {
 	private String accountName;
 	
 	private String password;
+
+	@Column(name = "is_enabled")
+	private boolean isEnabled;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userId", referencedColumnName = "user_id")
@@ -85,7 +88,7 @@ public class Account implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return isEnabled;
 	}
 
 	public void setPassword(String password) {

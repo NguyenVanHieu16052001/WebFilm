@@ -9,19 +9,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-
 @RestController
 public class FileController {
-    @Value("${project.movie}")
+    @Value("${project.video}")
     private String path;
     @Autowired
     private FileService fileService;
-    @GetMapping("/movies/{fileName:.+}")
+    @GetMapping("/films/{fileName:.+}")
     public ResponseEntity<Resource> posterOrTrailer(@PathVariable String fileName, HttpServletRequest request) {
         Resource resource = fileService.loadFileAsResource(fileName,path);
         String contentType = null;
@@ -38,7 +38,7 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
-    @GetMapping("/movies/content/{fileName:.+}")
+    @GetMapping("/films/content/{fileName:.+}")
     public ResponseEntity<Resource> watch(@PathVariable String fileName, HttpServletRequest request) {
         Resource resource = fileService.loadFileAsResource(fileName,path.concat("content/"));
         String contentType = null;
