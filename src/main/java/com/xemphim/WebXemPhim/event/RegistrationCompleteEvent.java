@@ -1,15 +1,9 @@
 package com.xemphim.WebXemPhim.event;
 
 import com.xemphim.WebXemPhim.entity.User;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
-/**
- * @author Sampson Alfred
- */
-@Getter
-@Setter
+
 public class RegistrationCompleteEvent extends ApplicationEvent {
     private User user;
     private String applicationUrl;
@@ -19,4 +13,21 @@ public class RegistrationCompleteEvent extends ApplicationEvent {
         this.user = user;
         this.applicationUrl = applicationUrl;
     }
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getApplicationUrl() {
+		return applicationUrl;
+	}
+
+	public void setApplicationUrl(String applicationUrl) {
+		this.applicationUrl = applicationUrl;
+	}
+    
 }

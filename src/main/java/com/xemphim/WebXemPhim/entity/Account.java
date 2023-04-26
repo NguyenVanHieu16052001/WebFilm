@@ -23,8 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "accounts")
 public class Account implements UserDetails {
@@ -109,6 +107,18 @@ public class Account implements UserDetails {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public Collection<Token> getToken() {
+		return token;
+	}
+
+	public void setToken(Collection<Token> token) {
+		this.token = token;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 }
