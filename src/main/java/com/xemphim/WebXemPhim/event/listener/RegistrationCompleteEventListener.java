@@ -60,7 +60,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        log.info("Click the link to verify your registration :  {}", url);
+//        log.info("Click the link to verify your registration :  {}", url);
     }
 
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {
