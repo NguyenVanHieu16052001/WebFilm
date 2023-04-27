@@ -28,6 +28,8 @@ public class FilmMapper {
         }
         filmDTO.setFilmCategory(categories2);
         filmDTO.setFilmRating(film.getRating());
+        filmDTO.setOdd(filmDTO.getOdd());
+        filmDTO.setFilmDescription(film.getFilmDescription());
         return filmDTO;
     }
     public FilmDTO toDetailFilmDTO(Film film, List<Category> categories,List<Episode> episodes){
