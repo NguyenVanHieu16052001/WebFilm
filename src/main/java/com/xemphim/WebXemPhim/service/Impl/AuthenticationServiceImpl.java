@@ -49,8 +49,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public APIResponse register(SignUpRequestDTO request,final HttpServletRequest httpServletRequest) {
         APIResponse apiResponse = new APIResponse();
-        if(userRepository.findOneByEmail(request.getEmail()) != null){
-            apiResponse.setData("User already exists!");
+        if(userRepository.findOneByEmail(request.getEmail()) != null || accountRepository.findOneByAccountName(request.getAccountName()).isPresent()){
+            apiResponse.setStatus(400);
+            apiResponse.setError("User already exists!");
             return apiResponse;
         }
 
