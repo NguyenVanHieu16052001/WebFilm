@@ -162,20 +162,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(accountName, requestDTO.getPassword())
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(accountName, requestDTO.getPassword()));
+        } catch (BadCredentialsException e){
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setStatus(400);
+            apiResponse.setError("The password can be wrong");
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        }
+
         if (accountName != null) {
             var account = this.accountRepository.findOneByAccountName(accountName)
                     .orElseThrow();
             if (requestDTO.getNewPassword().equals(requestDTO.getConfirmPassword())) {
                 account.setPassword(passwordEncoder.encode(requestDTO.getNewPassword()));
+                accountRepository.save(account);
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setData("Success");
                 new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
             } else {
                 APIResponse apiResponse = new APIResponse();
-                apiResponse.setData("Success");
+                apiResponse.setStatus(400);
+                apiResponse.setError("New password and confirmation password do not match");
                 new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
             }
         }
