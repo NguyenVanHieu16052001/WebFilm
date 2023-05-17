@@ -224,7 +224,7 @@ CREATE TABLE `episodes` (
   PRIMARY KEY (`episode_id`),
   KEY `fk_episodes_film_id_idx` (`film_id`),
   CONSTRAINT `fk_episodes_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `episodes` (
 
 LOCK TABLES `episodes` WRITE;
 /*!40000 ALTER TABLE `episodes` DISABLE KEYS */;
-INSERT INTO `episodes` VALUES (1,'adsd',2,'tap1','2023-05-17 15:23:17'),(2,'aad',1,'tap 1','2023-05-17 15:23:17'),(3,'asd',1,'tap2','2023-05-17 10:23:17'),(4,'http://localhost:8081/films/content/1dfbbbae-231e-4f8d-a30d-c34475728f57.mp4',6,'1','2023-05-17 15:23:17'),(5,'http://localhost:8081/films/content/56a063f4-9e8a-430a-b55d-1aa73f996fe9.mp4',6,'2','2023-05-17 15:23:17'),(6,'http://localhost:8081/films/content/a0254a68-e533-4f57-a402-af5e106351ae.mp4',6,'tap1','2023-05-17 17:45:51');
+INSERT INTO `episodes` VALUES (1,'adsd',2,'tap1','2023-05-17 20:23:17'),(2,'aad',2,'tap 1','2023-05-17 20:23:17'),(3,'asd',1,'tap2','2023-05-17 20:23:17'),(4,'http://localhost:8081/films/content/1dfbbbae-231e-4f8d-a30d-c34475728f57.mp4',6,'1','2023-05-17 20:23:17'),(5,'http://localhost:8081/films/content/56a063f4-9e8a-430a-b55d-1aa73f996fe9.mp4',6,'2','2023-05-17 20:23:17'),(6,'http://localhost:8081/films/content/a0254a68-e533-4f57-a402-af5e106351ae.mp4',1,'tap1','2023-05-17 20:23:17'),(7,'ádsdsd',1,'ádsd','2023-05-17 20:23:17'),(8,'ádsd',1,'adsdđ','2023-05-17 20:23:17');
 /*!40000 ALTER TABLE `episodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,13 +276,13 @@ DROP TABLE IF EXISTS `favorites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `favorites` (
-  `film_id` int NOT NULL,
+  `favorite_film_id` int NOT NULL,
   `account_name` varchar(45) NOT NULL,
-  `cre_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`film_id`,`account_name`),
+  `favorite_cre_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`favorite_film_id`,`account_name`),
   KEY `fk_account_name_idx` (`account_name`),
   CONSTRAINT `fk_account_name` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`),
-  CONSTRAINT `fk_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`)
+  CONSTRAINT `fk_film_id` FOREIGN KEY (`favorite_film_id`) REFERENCES `films` (`film_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -365,7 +365,7 @@ CREATE TABLE `films` (
   `film_duration` int NOT NULL,
   `release_time` date NOT NULL,
   `odd_film` tinyint NOT NULL,
-  `average_rating` float DEFAULT NULL,
+  `average_rating` float NOT NULL DEFAULT '0',
   `film_producer_id` int NOT NULL,
   `nation_id` int NOT NULL,
   `director_id` int NOT NULL,
@@ -386,7 +386,7 @@ CREATE TABLE `films` (
 
 LOCK TABLES `films` WRITE;
 /*!40000 ALTER TABLE `films` DISABLE KEYS */;
-INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,0,1,1,1),(2,'Mission: Impossible 2','abc','abc','abc',120,'1998-02-02',1,0,1,1,1),(3,'a','http://localhost:8081/films/7332234c-cc58-405d-8e70-03d2b4fbb860.png','http://localhost:8081/films/9ab63ce3-9337-4e41-9235-09e8bf38a2c3.mp4','adsdsd',120,'2022-03-01',0,NULL,1,1,1),(5,'phimmoi','http://localhost:8081/films/6b15768e-05d8-48a6-8bba-a2ac346d2b50.png','http://localhost:8081/films/2aca6632-2a75-4aca-a99f-6e9c45012fa9.mp4','adsdsd',120,'2022-03-01',0,NULL,1,1,1),(6,'phimmoi1','http://localhost:8081/films/54149a4d-5b42-450a-a4fc-ea53e4710a9a.png','http://localhost:8081/films/b1086738-dcbd-4e4d-a497-da1fa7dc0103.mp4','adsdsd',120,'2022-03-01',0,NULL,1,1,1);
+INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,0,1,1,1),(2,'Mission: Impossible 2','abc','abc','abc',120,'1998-02-02',1,0,1,1,1),(3,'a','http://localhost:8081/films/7332234c-cc58-405d-8e70-03d2b4fbb860.png','http://localhost:8081/films/9ab63ce3-9337-4e41-9235-09e8bf38a2c3.mp4','adsdsd',120,'2022-03-01',0,0,1,1,1),(5,'phimmoi','http://localhost:8081/films/6b15768e-05d8-48a6-8bba-a2ac346d2b50.png','http://localhost:8081/films/2aca6632-2a75-4aca-a99f-6e9c45012fa9.mp4','adsdsd',120,'2022-03-01',0,0,1,1,1),(6,'phimmoi1','http://localhost:8081/films/54149a4d-5b42-450a-a4fc-ea53e4710a9a.png','http://localhost:8081/films/b1086738-dcbd-4e4d-a497-da1fa7dc0103.mp4','adsdsd',120,'2022-03-01',0,0,1,1,1);
 /*!40000 ALTER TABLE `films` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -630,7 +630,7 @@ BEGIN
 	SELECT e.*
 		FROM episodes e
 		JOIN favorites f ON e.film_id = f.film_id
-		WHERE f.account_name = "Hieu1" AND e.cre_at > f.cre_at
+		WHERE f.account_name = account_name AND e.cre_at > f.cre_at
 		ORDER BY e.cre_at;
 END ;;
 DELIMITER ;
@@ -729,4 +729,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-17 17:59:35
+-- Dump completed on 2023-05-18  0:47:30
