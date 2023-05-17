@@ -8,7 +8,7 @@ public class Favorite {
     @EmbeddedId
     private FavoriteID id;
 
-//    @Column(name = "cre_at")
+//    @Column(name = "favorite_cre_at")
 //    @JsonFormat(pattern="yyyy-MM-dd HH-mm-ss",timezone="Asia/Ho_Chi_Minh")
 //    private Date creAt;
 

@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void creFilm(CreFilmRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            if (!filmRepository.findAllByFilmNameIgnoreCaseContains(requestDTO.getName()).isEmpty()) {
+            if (filmRepository.findOneByFilmNameIgnoreCase(requestDTO.getName()).getFilmName() != null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus(400);
                 apiResponse.setError("Film title is duplicate");

@@ -6,7 +6,7 @@
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;get_episodes_by_favorites
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
@@ -630,7 +630,7 @@ BEGIN
 	SELECT e.*
 		FROM episodes e
 		JOIN favorites f ON e.film_id = f.film_id
-		WHERE f.account_name = account_name AND e.cre_at > f.cre_at
+		WHERE f.account_name = "Hieu1" AND e.cre_at > f.cre_at
 		ORDER BY e.cre_at;
 END ;;
 DELIMITER ;

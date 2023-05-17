@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 @Embeddable
 public class FavoriteID {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "film_id")
+    @JoinColumn(name = "favorite_film_id")
     private Film film;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClientService {
-    APIResponse GetDetailFilm(String nameFilm);
+    APIResponse GetDetailFilm(int page, String nameFilm);
     APIResponse GetAllUser();
     APIResponse purchase(FilmPackage filmPackage, Optional<Account> account);
-    APIResponse GetFilmByCategory(String category);
-    APIResponse GetFilmsByName(String category);
+    APIResponse GetFilmByCategory(int page,String category);
+    APIResponse GetFilmsByName(int page, String category);
 
     void getInfo(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
@@ -31,7 +31,6 @@ public interface ClientService {
     APIResponse getHome();
 
     void favorite(String filmName, HttpServletRequest request, HttpServletResponse response) throws IOException;
-    void getNotifyEpisodes(HttpServletRequest request, HttpServletResponse response) throws IOException;
     List<FilmPackageOutput> getFilmPackages();
 
     void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException;

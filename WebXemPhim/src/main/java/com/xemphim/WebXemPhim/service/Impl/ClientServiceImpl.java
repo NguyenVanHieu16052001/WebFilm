@@ -14,12 +14,13 @@ import com.xemphim.WebXemPhim.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.*;
 
@@ -72,9 +73,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public APIResponse GetFilmByCategory(String category) {
+    public APIResponse GetFilmByCategory(int page,String category) {
+        Pageable pageable = PageRequest.of(page,10);
         APIResponse apiResponse = new APIResponse();
-        List<FilmCategory> listFilmCategories = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category));
+        Page<FilmCategory> listFilmCategoriesPage = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category),pageable);
+        List<FilmCategory> listFilmCategories = listFilmCategoriesPage.getContent();
         List<Film> films = new ArrayList<>();
         for (FilmCategory f:listFilmCategories) {
             films.add(f.getId().getFilm());
@@ -95,9 +98,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public APIResponse GetFilmsByName(String filmName) {
+    public APIResponse GetFilmsByName(int page, String filmName) {
+        Pageable pageable = PageRequest.of(page,10);
         APIResponse apiResponse = new APIResponse();
-        List<Film> films = filmRepository.findAllByFilmNameIgnoreCaseContains(filmName);
+        Page<Film> filmsPage = filmRepository.findAllByFilmNameIgnoreCaseContains(filmName,pageable);
+        List<Film> films = filmsPage.getContent();
         HashMap<String,Object> map = new HashMap<>();
         List<FilmDTO> filmDTOs = new ArrayList<>();
         for (Film f:films) {
@@ -294,7 +299,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public APIResponse GetDetailFilm(String filmName) {
+    public APIResponse GetDetailFilm(int page, String filmName) {
+        Pageable pageable = PageRequest.of(page,5);
         APIResponse apiResponse = new APIResponse();
         Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
         List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(film);
@@ -308,7 +314,8 @@ public class ClientServiceImpl implements ClientService {
             apiResponse.setStatus(400);
             apiResponse.setError("Movie not found!");
         } else {
-            List<Object> comments = commentRepository.findCommentsTree(String.valueOf(film.getFilmId()));
+            Page<Object> commentsPage = commentRepository.findCommentsTree(String.valueOf(film.getFilmId()),pageable);
+            List<Object> comments = commentsPage.getContent();
             List<CommentDTO> l = new ArrayList<>();
             for (Object obj: comments) {
                 Object[] row = (Object[]) obj;
@@ -338,31 +345,6 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
     @Override
-    public void getNotifyEpisodes(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String jwt;
-        final String accountName;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
-        }
-        jwt = authHeader.substring(7);
-        accountName = jwtService.extractAccountName(jwt);
-        List<Episode> episodes = episodeRepository.findEpisodesFavorite(accountName);
-        List<NotifyDTO> notifyDTOS = new ArrayList<>();
-        NotifyDTO dto;
-        for (Episode e:episodes) {
-            dto = new NotifyDTO();
-            dto.setImage(e.getFilm().getFilmPosterPath());
-            dto.setContent(e.getFilm().getFilmName() + " - New Episode");
-            dto.setNotifications(e.getTitle());
-            dto.setRelease_Days(e.getCreAt());
-            notifyDTOS.add(dto);
-        }
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setData(notifyDTOS);
-        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
-    }
-    @Override
     public List<FilmPackageOutput> getFilmPackages() {
         List<Object[]> objects = new ArrayList<>();
         List<FilmPackageOutput> filmPackageOutputs = new ArrayList<>();
@@ -388,7 +370,8 @@ public class ClientServiceImpl implements ClientService {
         }
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
-        List<Episode> episodes = episodeRepository.findEpisodesFavorite(accountName);
+        Page<Episode> episodesPage = episodeRepository.findEpisodesFavoritePagination(accountName,pageable);
+        List<Episode> episodes = episodesPage.getContent();
         List<NotifyDTO> notifyDTOS = new ArrayList<>();
         NotifyDTO dto;
         for (Episode e:episodes) {
