@@ -29,13 +29,13 @@ public class FilmDTO {
     private Date release_time;
     private Map<String,String> episodes;
 
-    private List<Object> comments;
+    private List<CommentDTO> comments;
 
-    public List<Object> getComment() {
+    public List<CommentDTO> getComment() {
         return comments;
     }
 
-    public void setComment(List<Object> comments) {
+    public void setComment(List<CommentDTO> comments) {
         this.comments = comments;
     }
 

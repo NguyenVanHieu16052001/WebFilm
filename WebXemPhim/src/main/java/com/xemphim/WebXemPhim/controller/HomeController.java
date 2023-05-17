@@ -1,6 +1,7 @@
 package com.xemphim.WebXemPhim.controller;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
+import com.xemphim.WebXemPhim.dto.NotifyDTO;
 import com.xemphim.WebXemPhim.dto.request.ChangeInfoRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.ChangePasswordRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
@@ -14,6 +15,7 @@ import com.xemphim.WebXemPhim.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -107,6 +109,10 @@ public class HomeController {
     @GetMapping("info/notify")
     public void getNotify(HttpServletRequest request, HttpServletResponse response) throws IOException  {
         clientService.getNotifyEpisodes(request, response);
+    }
+    @GetMapping("info/notify/{pageNumber}")
+    public void getNotifyPagination(@PathVariable Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.getNotifyPagination(page,request, response);
     }
     @GetMapping("info/film-packages")
     public List<FilmPackageOutput> getFilmPackages(){

@@ -1,5 +1,6 @@
 package com.xemphim.WebXemPhim.dto.mapper;
 
+import com.xemphim.WebXemPhim.dto.CommentDTO;
 import com.xemphim.WebXemPhim.dto.FilmDTO;
 import com.xemphim.WebXemPhim.entity.*;
 import com.xemphim.WebXemPhim.repository.FilmCategoryRepository;
@@ -34,7 +35,7 @@ public class FilmMapper {
         filmDTO.setFilmDescription(film.getFilmDescription());
         return filmDTO;
     }
-    public FilmDTO toDetailFilmDTO(Film film, List<Category> categories,List<Episode> episodes, List<Object> comments){
+    public FilmDTO toDetailFilmDTO(Film film, List<Category> categories,List<Episode> episodes, List<CommentDTO> comments){
         FilmDTO filmDTO = new FilmDTO();
         filmDTO.setFilmName(film.getFilmName());
         filmDTO.setFilmPosterPath(film.getFilmPosterPath());

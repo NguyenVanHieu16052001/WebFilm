@@ -14,10 +14,12 @@ import com.xemphim.WebXemPhim.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.*;
 
@@ -307,7 +309,25 @@ public class ClientServiceImpl implements ClientService {
             apiResponse.setError("Movie not found!");
         } else {
             List<Object> comments = commentRepository.findCommentsTree(String.valueOf(film.getFilmId()));
-            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes,comments);
+            List<CommentDTO> l = new ArrayList<>();
+            for (Object obj: comments) {
+                Object[] row = (Object[]) obj;
+                int comment_id = (int) row[0];
+                String account_name = (String) row[1];
+                String comment_content = (String) row[2];
+                int parent_comment_id;
+                try {
+                    parent_comment_id = (int) row[3];
+                }
+                catch (NullPointerException e) {
+                    parent_comment_id = 0;
+//                    e.fillInStackTrace();
+                }
+                long level = (long) row[4];
+                String path = (String) row[5];
+                l.add(new CommentDTO(comment_id,account_name,comment_content,parent_comment_id,level,path));
+            }
+            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes,l);
             apiResponse.setData(filmDTO);
         }
         return apiResponse;
@@ -355,5 +375,32 @@ public class ClientServiceImpl implements ClientService {
             filmPackageOutputs.add(filmPackageOutput);
         }
         return filmPackageOutputs;
+    }
+
+    @Override
+    public void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Pageable pageable = (Pageable) PageRequest.of(page,3);
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String jwt;
+        final String accountName;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+        jwt = authHeader.substring(7);
+        accountName = jwtService.extractAccountName(jwt);
+        List<Episode> episodes = episodeRepository.findEpisodesFavorite(accountName);
+        List<NotifyDTO> notifyDTOS = new ArrayList<>();
+        NotifyDTO dto;
+        for (Episode e:episodes) {
+            dto = new NotifyDTO();
+            dto.setImage(e.getFilm().getFilmPosterPath());
+            dto.setContent(e.getFilm().getFilmName() + " - New Episode");
+            dto.setNotifications(e.getTitle());
+            dto.setRelease_Days(e.getCreAt());
+            notifyDTOS.add(dto);
+        }
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData(notifyDTOS);
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
     }
 }

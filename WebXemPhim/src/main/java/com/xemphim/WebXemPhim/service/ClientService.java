@@ -33,4 +33,6 @@ public interface ClientService {
     void favorite(String filmName, HttpServletRequest request, HttpServletResponse response) throws IOException;
     void getNotifyEpisodes(HttpServletRequest request, HttpServletResponse response) throws IOException;
     List<FilmPackageOutput> getFilmPackages();
+
+    void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }
