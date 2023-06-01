@@ -52,4 +52,8 @@ public class AuthController {
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+    @GetMapping("logout")
+    public void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        authenticationService.logOut(request, response);
+    }
 }

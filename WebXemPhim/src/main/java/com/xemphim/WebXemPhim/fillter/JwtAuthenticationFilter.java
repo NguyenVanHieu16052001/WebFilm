@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Wrong token");
             return;
         }
         final String jwt;
@@ -70,6 +70,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             new WebAuthenticationDetailsSource().buildDetails(request)
                     );
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+                else {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST,"isTokenValid");
+                    return;
                 }
             }
             catch (UsernameNotFoundException e) {

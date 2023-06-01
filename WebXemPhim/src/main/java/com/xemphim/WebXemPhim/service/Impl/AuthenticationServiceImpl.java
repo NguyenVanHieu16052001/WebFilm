@@ -257,4 +257,38 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return apiResponse;
         }
     }
+
+    @Override
+    public void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String jwt;
+        final String accountName;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+        jwt = authHeader.substring(7);
+        accountName = jwtService.extractAccountName(jwt);
+        if (accountName != null) {
+            var account = this.accountRepository.findOneByAccountName(accountName)
+                    .orElseThrow();
+
+            try {
+                List<Token> tokens = tokenRepository.findAllValidTokenByAccount(account);
+                for (Token tk:tokens) {
+                    tk.setRevoked(true);
+                    tk.setExpired(true);
+                    tokenRepository.save(tk);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                APIResponse apiResponse = new APIResponse();
+                apiResponse.setError("error");
+                new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+            }
+        }
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("ok");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
 }

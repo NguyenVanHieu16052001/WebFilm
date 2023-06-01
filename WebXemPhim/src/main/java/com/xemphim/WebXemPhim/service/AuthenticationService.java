@@ -17,4 +17,6 @@ public interface AuthenticationService {
   APIResponse verifyEmail(String token);
 
   APIResponse resetPass(ResetPasswordRequestDTO requestDTO, HttpServletRequest request);
+
+    void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }
